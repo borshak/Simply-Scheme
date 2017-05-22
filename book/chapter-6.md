@@ -56,6 +56,7 @@ because what's the point of using if if we already know which branch will be fol
 
 A function that returns either #t or #f is called a predicate.[2] You've already seen the equal? predicate. It takes two arguments, which can be of any type, and returns #t if the two arguments are the same value, or #f if they're different. It's a convention in Scheme that the names of predicates end with a question mark, but that's just a convention. Here are some other useful predicates:
 
+```Scheme
 > (member? 'mick '(dave dee dozy beaky mick and tich))
 #T
 > (member? 'mick '(john paul george ringo))
@@ -84,12 +85,15 @@ A function that returns either #t or #f is called a predicate.[2] You've already
 #T
 > (empty? "")
 #T
+```
+
 Member? takes two arguments; it checks to see if the first one is a member of the second. The =, >, <, >=, and <= functions take two numbers as arguments and do the obvious comparisons. (By the way, these are exceptions to the convention about question marks.) Before? is like <, but it compares two words alphabetically. Empty? checks to see if its argument is either the empty word or the empty sentence.
 
 Why do we have both equal? and = in Scheme? The first of these works on any kind of Scheme data, while the second is defined only for numbers. You could get away with always using equal?, but the more specific form makes your program more self-explanatory; people reading the program know right away that you're comparing numbers.
 
 There are also several predicates that can be used to test the type of their argument:
 
+```Scheme
 > (number? 'three)
 #F
 > (number? 74)
@@ -112,25 +116,34 @@ There are also several predicates that can be used to test the type of their arg
 #F
 > (sentence? '(what goes on))
 #T
+```
+
 Of course, we can also define new predicates:
 
+```Scheme
 (define (vowel? letter)
   (member? letter 'aeiou))
 
 (define (positive? number)
   (> number 0))
+  ```
+  
 Using Predicates
 
 Here's a procedure that returns the absolute value of a number:
 
+```Scheme
 (define (abs num)
   (if (< num 0)
       (- num)
       num))
+```
+
 (If you call - with just one argument, it returns the negative of that argument.) Scheme actually provides abs as a primitive procedure, but we can redefine it.
 
 Do you remember how to play buzz? You're all sitting around the campfire and you go around the circle counting up from one. Each person says a number. If your number is divisible by seven or if one of its digits is a seven, then instead of calling out your number, you say "buzz."
 
+```Scheme
 (define (buzz num)
   (if (or (divisible? num 7) (member? 7 num))
       'buzz
@@ -138,6 +151,8 @@ Do you remember how to play buzz? You're all sitting around the campfire and you
 
 (define (divisible? big little)
   (= (remainder big little) 0))
+  ```
+  
 Or can take any number of arguments, each of which must be true or false. It returns true if any of its arguments are true, that is, if the first argument is true or the second argument is true or&hellip (Remainder, as you know, takes two integers and tells you what the remainder is when you divide the first by the second. If the remainder is zero, the first number is divisible by the second.)
 
 Or is one of three functions in Scheme that combine true or false values to produce another true or false value. And returns true if all of its arguments are true, that is, the first and second and&hellip Finally, there's a function not that takes exactly one argument, returning true if that argument is false and vice versa.
@@ -146,6 +161,7 @@ In the last example, the procedure we really wanted to write was buzz, but we fo
 
 Let's write a program that takes a word as its argument and returns the plural of that word. Our first version will just put an "s" on the end:
 
+```Scheme
 (define (plural wd)
   (word wd 's))
 
@@ -157,21 +173,29 @@ COMPUTERS
 
 > (plural 'fly)
 FLYS
+```
+
 This works for most words, but not those that end in "y." Here's version two:
 
+```Scheme
 (define (plural wd)
   (if (equal? (last wd) 'y)
       (word (bl wd) 'ies)
       (word wd 's)))
+      ```
+      
 This isn't exactly right either; it thinks that the plural of "boy" is "boies." We'll ask you to add some more rules in Exercise 6.12.
 
 If Is a Special Form
 
 There are a few subtleties that we haven't told you about yet. First of all, if is a special form. Remember that we're going to need the value of only one of its last two arguments. It would be wasteful for Scheme to evaluate the other one. So if you say
 
+```Scheme
 (if (= 3 3)
     'sure
     (factorial 1000))
+```
+
 if won't compute the factorial of 1000 before returning sure.
 
 The rule is that if always evaluates its first argument. If the value of that argument is true, then if evaluates its second argument and returns its value. If the value of the first argument is false, then if evaluates its third argument and returns that value.
@@ -180,6 +204,7 @@ So Are And and Or
 
 And and or are also special forms. They evaluate their arguments in order from left to right[3] and stop as soon as they can. For or, this means returning true as soon as any of the arguments is true. And returns false as soon as any argument is false. This turns out to be useful in cases like the following:
 
+```Scheme
 (define (divisible? big small)
   (= (remainder big small) 0))
 
@@ -197,16 +222,22 @@ And and or are also special forms. They evaluate their arguments in order from l
 
 > (divisible? 'aardvark 4)
 ERROR: AARDVARK IS NOT A NUMBER
+```
+
 We want to see if x is a number, and, if so, if it's divisible by 4. It would be an error to apply divisible? to a nonnumber. If and were an ordinary procedure, the two tests (number? and divisible?) would both be evaluated before we would have a chance to pay attention to the result of the first one. Instead, if x turns out not to be a number, our procedure will return #f without trying to divide it by 4.
 
 Everything That Isn't False Is True
 
 #T isn't the only true value. In fact, every value is considered true except for #f.
 
+```Scheme
 > (if (+ 3 4) 'yes 'no)
 YES
+```
+
 This allows us to have semipredicates that give slightly more information than just true or false. For example, we can write an integer quotient procedure. That is to say, our procedure will divide its first argument by the second, but only if the first is evenly divisible by the second. If not, our procedure will return #f.
 
+```Scheme
 (define (integer-quotient big little)
   (if (divisible? big little)
       (/ big little)
@@ -217,23 +248,35 @@ This allows us to have semipredicates that give slightly more information than j
 
 > (integer-quotient 12 5)
 #F
+```
+
 And and or are also semipredicates. We've already explained that or returns a true result as soon as it evaluates a true argument. The particular true value that or returns is the value of that first true argument:
 
+```Scheme
 > (or #f 3 #f 4)
 3
+```
+
 And returns a true value only if all of its arguments are true. In that case, it returns the value of the last argument:
 
+```Scheme
 > (and 1 2 3 4 5)
 5
+```
+
 As an example in which this behavior is useful, we can rewrite integer-quotient more tersely:
 
+```Scheme
 (define (integer-quotient big little)        ;; alternate version
   (and (divisible? big little)
        (/ big little)))
+```
+
 Decisions, Decisions, Decisions
 
 If is great for an either-or choice. But sometimes there are several possibilities to consider:
 
+```Scheme
 (define (roman-value letter)
   (if (equal? letter 'i)
       1
@@ -250,8 +293,11 @@ If is great for an either-or choice. But sometimes there are several possibiliti
                           (if (equal? letter 'm)
                               1000
                               'huh?))))))))
+			      ```
+			      
 That's pretty hideous. Scheme provides a shorthand notation for situations like this in which you have to choose from among several possibilities: the special form cond.
 
+```Scheme
 (define (roman-value letter)
   (cond ((equal? letter 'i) 1)
         ((equal? letter 'v) 5)
@@ -261,8 +307,11 @@ That's pretty hideous. Scheme provides a shorthand notation for situations like 
         ((equal? letter 'd) 500)
         ((equal? letter 'm) 1000)
         (else 'huh?)))
+	```
+	
 The tricky thing about cond is that it doesn't use parentheses in quite the same way as the rest of Scheme. Ordinarily, parentheses mean procedure invocation. In cond, most of the parentheses still mean that, but some of them are used to group pairs of tests and results. We've reproduced the same cond expression below, indicating the funny ones in boldface.
 
+```Scheme
 (define (roman-value letter)
   (cond ((equal? letter 'i) 1)
         ((equal? letter 'v) 5)
@@ -272,9 +321,14 @@ The tricky thing about cond is that it doesn't use parentheses in quite the same
         ((equal? letter 'd) 500)
         ((equal? letter 'm) 1000)
         (else 'huh?) ))
+	```
+	
 Cond takes any number of arguments, each of which is two expressions inside a pair of parentheses. Each argument is called a cond clause. In the example above, one typical clause is
 
+```Scheme
 ((equal? letter 'l) 50)
+```
+
 The outermost parentheses on that line enclose two expressions. The first of the two expressions (the condition) is taken as true or false, just like the first argument to if. The second expression of each pair (the consequent) is a candidate for the return value of the entire cond invocation.
 
 Cond examines its arguments from left to right. Remember that since cond is a special form, its arguments are not evaluated ahead of time. For each argument, cond evaluates the first of the two expressions within the argument. If that value turns out to be true, then cond evaluates the second expression in the same argument, and returns that value without examining any further arguments. But if the value is false, then cond does not evaluate the second expression; instead, it goes on to the next argument.
@@ -283,6 +337,7 @@ By convention, the last argument always starts with the word else instead of an 
 
 Don't get into bad habits of thinking about the appearance of cond clauses in terms of "two parentheses in a row." That's often the case, but not always. For example, here is a procedure that translates Scheme true or false values (#t and #f) into more human-readable words true and false.
 
+```Scheme
 (define (truefalse value)
   (cond (value 'true)
 	(else 'false)))
@@ -292,11 +347,16 @@ TRUE
 
 > (truefalse (= 5 (+ 2 2)))
 FALSE
+```
+
 When a cond tests several possible conditions, they might not be mutually exclusive.[5] This can be either a source of error or an advantage in writing efficient programs. The trick is to make the most restrictive test first. For example, it would be an error to say
 
+```Scheme
 (cond ((number? (first sent)) &hellip)           ;; wrong
       ((empty? sent) &hellip)
       &hellip)
+      ```
+      
 because the first test only makes sense once you've already established that there is a first word of the sentence. On the other hand, you don't have to say
 
 (cond ((empty? sent) &hellip)
