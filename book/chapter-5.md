@@ -113,16 +113,17 @@ SOMETHIN
 91
 ```
 
-HERE
-====
 
-Обратите внимание, что первый элемент в предложении - слово, а первый элемент в слове - буква. (Но нет отдельного типа данных, называемого «letter», а буква равнозначна односимвольному слову.) Но первым предлогом является предложение, а первым словом является слово. Соответствующие правила сохраняются для last и butlast.
+Обратите внимание, что первый элемент в предложении - слово, а первый элемент в слове - буква. (Но нет отдельного типа данных, называемого «letter», а буква равнозначна односимвольному слову.) ```butfirst``` в предложении - предложение, а ```butfirst``` в слове - слово. Соответствующие правила сохраняются для last и butlast.
 
 Notice that the first of a sentence is a word, while the first of a word is a letter. (But there's no separate data type called "letter"; a letter is the same as a one-letter word.) The butfirst of a sentence is a sentence, and the butfirst of a word is a word. The corresponding rules hold for last and butlast.
 
-Имена butfirst и butlast не предназначены для описания способов санок; Они сокращают «все кроме первого» и «все, кроме последнего».
+Имена butfirst и butlast не предназначены для описания способов скольжения; єто сокращения «все, кроме первого» (all but the first) и «все, кроме последнего» (all but the last).
 
 The names butfirst and butlast aren't meant to describe ways to sled; they abbreviate "all but the first" and "all but the last."
+
+HERE
+====
 
 You may be wondering why we're given ways to find the first and last elements but not the 42nd element. It turns out that the ones we have are enough, since we can use these primitive selectors to define others:
 
