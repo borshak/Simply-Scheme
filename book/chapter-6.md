@@ -1,22 +1,35 @@
-# Chapter 6
-# True and False
+# Глава 6
+# Истина и ложь (True и False)
 
-"Contrariwise," continued Tweedledee, "if it was so, it might be; and if it were so, it would be; but as it isn't, it ain't. That's logic."
+*«В противоположном случае, - продолжал Твидли, - если бы это было так, это могло бы быть, и если бы это было так, то было бы, но поскольку это не так, это не так. Это логика».*
+
+*"Contrariwise," continued Tweedledee, "if it was so, it might be; and if it were so, it would be; but as it isn't, it ain't. That's logic."*
+
+Нам до сих пор нужно что-то еще, прежде чем мы сможем писать более интересные программы: возможность принимать решения. В Scheme есть способ сказать: «Если это истина, то делайте это, иначе делайте что-нибудь другое».
 
 We still need one more thing before we can write more interesting programs: the ability to make decisions. Scheme has a way to say "if this is true, then do this thing, otherwise do something else."
 
+Вот процедура, которая приветствует человека:
+
 Here's a procedure that greets a person:
 
+```Scheme
 (define (greet name)
   (if (equal? (first name) 'professor)
       (se '(i hope i am not bothering you) 'professor (last name))
       (se '(good to see you) (first name))))
-
+```
+```Scheme
 > (greet '(matt wright))
 (GOOD TO SEE YOU MATT)
-
+```
+```Scheme
 > (greet '(professor harold abelson))
 (I HOPE I AM NOT BOTHERING YOU PROFESSOR ABELSON)
+```
+
+Эта программа приветствует человека, проверяя, является ли этот человек профессором. Если да, то результат: «Надеюсь, я вас не беспокою», а затем имя профессора. Но если это обычный человек, программа просто говорит: «Рад тебя видеть», а затем имя человека.
+
 The program greets a person by checking to see if that person is a professor. If so, it says, "I hope I am not bothering you" and then the professor's name. But if it's a regular person, the program just says, "Good to see you," and then the person's first name.
 
 If takes three arguments. The first has to be either true or false. (We'll talk in a moment about exactly what true and false look like to Scheme.) In the above example, the first word of the person's name might or might not be equal to the word "Professor." The second and third arguments are expressions; one or the other of them is evaluated depending on the first argument. The value of the entire if expression is the value of either the second or the third argument.
