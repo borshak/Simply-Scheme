@@ -5,14 +5,21 @@
 
 We started out, in Part I, with examples about acronyms and so on, but since then we've been working with numbery old numbers. That's because the discussions about evaluation and procedure definition were complicated enough without introducing extra ideas at the same time. But now we're ready to get back to symbolic programming.
 
+Как мы уже упоминали в главе 3, все, что вы вводите в Scheme, вычисляется, и результирующее значение распечатывается. Предположим, вы хотите использовать "**square**" в качестве слова в своей программе. Например, вы хотите, чтобы ваша программа решила проблему: «Дайте мне прилагательное, которое описывает Барри Манилоу». Если вы просто наберете "square" в Scheme, вы обнаружите, что квадрат - это процедура:
+
 As we mentioned in Chapter 3, everything that you type into Scheme is evaluated and the resulting value is printed out. Let's say you want to use "square" as a word in your program. For example, you want your program to solve the problem, "Give me an adjective that describes Barry Manilow." If you just type square into Scheme, you will find out that square is a procedure:
 
+```Scheme
 > square
 #<PROCEDURE>
+(Различные версии Scheme могут по разному выводить информацию о внутреннем содержимом процедуры.)
 (Different versions of Scheme will have different ways of printing out procedures.)
+```
+То, что вам нужно, - это способ указать, что вы хотите использовать слово «square», а не значение этого слова в качестве выражения. Способ сделать это - использовать ```quote```:
 
 What you need is a way to say that you want to use the word "square" itself, rather than the value of that word, as an expression. The way to do this is to use quote:
 
+```Scheme
 > (quote square)
 SQUARE
 
@@ -21,27 +28,49 @@ SQUARE
 
 > (quote (things we said today))
 (THINGS WE SAID TODAY)
+```
+
+```quote``` представляет собой специальную форму, поскольку ее аргумент не вычисляется. Вместо этого она просто возвращает аргумент как есть.
+
 Quote is a special form, since its argument isn't evaluated. Instead, it just returns the argument as is.
+
+Программисты Scheme часто используют ```quote```, поэтому для нее есть сокращение:
 
 Scheme programmers use quote a lot, so there is an abbreviation for it:
 
+```Scheme
 > 'square
 SQUARE
 
 > '(old brown shoe)
 (old brown shoe)
+```
+
+(Поскольку Scheme использует апостроф в качестве сокращения для ```quote```, вы не можете использовать его в качестве обычного знака препинания в предложении. Именно поэтому мы избегали таких строк, как ```(can't buy me love)```. Для Scheme это будет означать ```(can (quote t) buy me love)```!) [1]
+
 (Since Scheme uses the apostrophe as an abbreviation for quote, you can't use one as an ordinary punctuation mark in a sentence. That's why we've been avoiding titles like (can't buy me love). To Scheme this would mean (can (quote t) buy me love)!)[1]
+
+Идея цитирования, хотя и может показаться немного оторванной от реальности в контексте компьютерного программирования, на самом деле хорошо знакома из обычного английского. Что такое книга? Это куча бумажек с напечатанными буквами, скрепленные между собой. Что такое «книга»? Это фраза, из существительного. Понимаете? Точно так же, что такое 2 + 3? Это 5. Что такое «2 + 3»? Это арифметическая формула. Когда вы видите слова в кавычках, вы понимаете, что вы должны думать о самих словах; вы не пыпаетесь оценить (вычислить) их значение. Scheme поступает так же.
 
 This idea of quoting, although it may seem arbitrary in the context of computer programming, is actually quite familiar from ordinary English. What is a book? It's a bunch of pieces of paper, with printing on them, bound together. What is "a book"? It's a noun phrase, made up of an article and a noun. See? Similarly, what's 2+3? It's five. What's "2+3"? It's an arithmetic formula. When you see words inside quotation marks, you understand that you're supposed to think about the words themselves; you don't evaluate what they mean. Scheme is the same way.
 
+(Не случайно дети, которые шутят, как
+
 (It's no accident that kids who make jokes like
 
+```
+Мэтт: «Скажи свое имя.»
 Matt: "Say your name."
+
+Брайан: Свое имя.
 Brian: "Your name."
+```
+вырастают программистами. Разница между вещью и ее названием является одной из важных идей, которые программисты должны понимать.)
 
 grow up to be computer programmers. The difference between a thing and its name is one of the important ideas that programmers need to understand.)
 
 ## Selectors
+## Селекторы
 
 So far all we've done with words and sentences is quote them. To do more interesting work, we need tools for two kinds of operations: We have to be able to take them apart, and we have to be able to put them together.[2] We'll start with the take-apart tools; the technical term for them is selectors.
 
