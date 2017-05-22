@@ -204,6 +204,7 @@ Since butfirst and butlast are so hard to type, there are abbreviations bf and b
 
 Functions for putting things together are called constructors. For now, we just have two of them: word and sentence. Word takes any number of words as arguments and joins them all together into one humongous word:
 
+```Scheme
 > (word 'ses 'qui 'pe 'da 'lian 'ism)
 SESQUIPEDALIANISM
 
@@ -212,19 +213,24 @@ NOWHERE
 
 > (word 35 893)
 35893
+```
 
 Sentence is similar, but slightly different, since it can take both words and sentences as arguments:
 
+```Scheme
 >  (sentence 'carry 'that 'weight)
 (CARRY THAT WEIGHT)
 
 > (sentence '(john paul) '(george ringo))
 (JOHN PAUL GEORGE RINGO)
+```
 
 Sentence is also too hard to type, so there's the abbreviation se.
 
+```Scheme
 > (se '(one plus one) 'makes 2)
 (ONE PLUS ONE MAKES 2)
+```
 
 By the way, why did we have to quote makes in the last example, but not 2? It's because numbers are self-evaluating, as we said in Chapter 3. We have to quote makes because otherwise Scheme would look for something named makes instead of using the word itself. But numbers can't be the names of things; they represent themselves. (In fact, you could quote the 2 and it wouldn't make any difference—do you see why?)
 
@@ -246,51 +252,65 @@ We've been avoiding apostrophes in our words and sentences because they're abbre
 
 Although we've already mentioned the need to avoid names of primitives when choosing formal parameters, we want to remind you specifically about the names word and sentence. These are often very tempting formal parameters, because many procedures have words or sentences as their domains. Unfortunately, if you choose these names for parameters, you won't be able to use the corresponding procedures within your definition.
 
+```Scheme
 (define (plural word)                        ;; wrong!
   (word word 's))
 
 > (plural 'george)
 ERROR: GEORGE isn't a procedure
+```
 
 The result of substitution was not, as you might think,
 
+```Scheme
 (word 'george 's)
 
 but rather
 
 ('george 'george 's)
+```
 
 We've been using wd and sent as formal parameters instead of word and sentence, and we recommend that practice.
 
 There's a difference between a word and a single-word sentence. For example, people often fall into the trap of thinking that the butfirst of a two-word sentence such as (sexy sadie) is the second word, but it's not. It's a one-word-long sentence. For example, its count is one, not five.[3]
 
+```Scheme
 > (bf '(sexy sadie))
 (SADIE)
 
 > (first (bf '(sexy sadie)))
 SADIE
+```
 
 We mentioned earlier that sometimes Scheme has to put double-quote marks around words. Just ignore them; don't get upset if your procedure returns "6-of-hearts" instead of just 6-of-hearts.
 
 Quote doesn't mean "print." Some people look at interactions like this:
 
+```Scheme
 > '(good night)
 (GOOD NIGHT)
+```
 
 and think that the quotation mark was an instruction telling Scheme to print what comes after it. Actually, Scheme always prints the value of each expression you type, as part of the read-eval-print loop. In this case, the value of the entire expression is the subexpression that's being quoted, namely, the sentence (good night). That value wouldn't be printed if the quotation were part of some larger expression:
 
+```Scheme
 > (bf '(good night))
 (NIGHT)
+```
 
 If you see an error message like
 
+```Scheme
 > (+ 3 (bf 1075))
 ERROR: INVALID ARGUMENT TO +: "075"
+```
 
 try entering the expression
 
+```Scheme
 > (strings-are-numbers #t)
 OKAY
+```
 
 and try again. (The extension to Scheme that allows arithmetic operations to work on nonstandard numbers like "075" makes ordinary arithmetic slower than usual. So we've provided a way to turn the extension on and off. Invoking strings-are-numbers with the argument #f turns off the extension.)[4]
 
@@ -298,6 +318,7 @@ and try again. (The extension to Scheme that allows arithmetic operations to wor
 
 5.1  What values are printed when you type these expressions to Scheme? (Figure it out in your head before you try it on the computer.)
 
+```Scheme
 (sentence 'I '(me mine))
 
 (sentence '() '(is empty))
@@ -315,9 +336,11 @@ and try again. (The extension to Scheme that allows arithmetic operations to wor
 (se "" '() "" '())
 
 (count (se "" '() "" '()))
+```
 
 5.2  For each of the following examples, write a procedure of two arguments that, when applied to the sample arguments, returns the sample result. Your procedures may not include any quoted data.
 
+```Scheme
 > (f1 '(a b c) '(d e f))
 (B C D E)
 
@@ -329,6 +352,7 @@ and try again. (The extension to Scheme that allows arithmetic operations to wor
 
 > (f4 '(a b c) '(d e f))
 BE
+```
 
 5.3  Explain the difference in meaning between (first 'mezzanine) and (first '(mezzanine)).
 
@@ -342,13 +366,16 @@ BE
 
 5.8  Which of the following are legal Scheme sentences?
 
+```Scheme
 (here, there and everywhere)
 (help!)
 (all i've got to do)
 (you know my name (look up the number))
+```
 
 5.9  Figure out what values each of the following will return before you try them on the computer:
 
+```Scheme
 (se (word (bl (bl (first '(make a))))
           (bf (bf (last '(baseball mitt)))))
     (word (first 'with) (bl (bl (bl (bl 'rigidly))))
@@ -357,7 +384,8 @@ BE
 (se (word (bl (bl 'bring)) 'a (last 'clean))
     (word (bl (last '(baseball hat))) (last 'for) (bl (bl 'very))
 	  (last (first '(sunny days)))))
-    
+```
+
 5.10  What kinds of argument can you give butfirst so that it returns a word? A sentence?
 
 5.11  What kinds of argument can you give last so that it returns a word? A sentence?
@@ -374,38 +402,51 @@ What is (first ' 'banana) and why?
 
 5.15   Write a procedure first-two that takes a word as its argument, returning a two-letter word containing the first two letters of the argument.
 
+```Scheme
 > (first-two 'ambulatory)
 AM
+```
 
 5.16  Write a procedure two-first that takes two words as arguments, returning a two-letter word containing the first letters of the two arguments.
 
+```Scheme
 > (two-first 'brian 'epstein)
 BE
+```
 
 Now write a procedure two-first-sent that takes a two-word sentence as argument, returning a two-letter word containing the first letters of the two words.
 
+```Scheme
 > (two-first-sent '(brian epstein))
 BE
+```
 
 5.17  Write a procedure knight that takes a person's name as its argument and returns the name with "Sir" in front of it.
 
+```Scheme
 > (knight '(david wessel))
 (SIR DAVID WESSEL)
+```
 
 5.18  Try the following and explain the result:
 
+```Scheme
 (define (ends word)
   (word (first word) (last word)))
 
 > (ends 'john)
+```
 
 5.19  Write a procedure insert-and that takes a sentence of items and returns a new sentence with an "and" in the right place:
 
+```Scheme
 > (insert-and '(john bill wayne fred joey))
 (JOHN BILL WAYNE FRED AND JOEY)
+```
 
 5.20  Define a procedure to find somebody's middle names:
 
+```Scheme
 > (middle-names '(james paul mccartney))
 (PAUL)
 
@@ -417,18 +458,24 @@ BE
 
 > (middle-names '(peter blair denis bernard noone))
 (BLAIR DENIS BERNARD)
+```
 
 5.21  Write a procedure query that turns a statement into a question by swapping the first two words and adding a question mark to the last word:
 
+```Scheme
 > (query '(you are experienced))
 (ARE YOU EXPERIENCED?)
 
 > (query '(i should have known better))
 (SHOULD I HAVE KNOWN BETTER?)
+```
 
 [1] Actually, it is possible to put punctuation inside words as long as the entire word is enclosed in double-quote marks, like this:
+
+```Scheme
 > '("can't" buy me love)
 ("can't" BUY ME LOVE)
+```
 
 Words like that are called strings. We're not going to use them in any examples until almost the end of the book. Stay away from punctuation and you won't get in trouble. However, question marks and exclamation points are okay. (Ordinary words, the ones that are neither strings nor numbers, are officially called symbols.)
 
