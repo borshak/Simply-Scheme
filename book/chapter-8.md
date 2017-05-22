@@ -1,17 +1,27 @@
-Part III
+# Часть III
+# Функции как данные
 
-Functions as Data
+К настоящему времени вы привыкли к идее выражения вычислительного процесса в терминах функции, значение которой вы хотите вычислить, а не в терминах последовательности действий. Но вы, вероятно, думаете о функции (или о процедуре ее воплощения) как о чем-то очень отличном от слов, предложений, чисел или других данных, которые служат аргументами для функций. Это похоже на различие между глаголами и существительными в английском языке: глагол представляет собой что-то, что нужно делать, а существительное представляет собой нечто, что есть.
 
 By now you're accustomed to the idea of expressing a computational process in terms of the function whose value you want to compute, rather than in terms of a sequence of actions. But you probably think of a function (or the procedure that embodies it) as something very different from the words, sentences, numbers, or other data that serve as arguments to the functions. It's like the distinction between verbs and nouns in English: A verb represents something to do, while a noun represents something that is.
 
+В этой части книги наша цель - опровергнуть это различие.
+
 In this part of the book our goal is to overturn that distinction.
+
+Как и многие большие идеи, сначала это кажется простым. Все, что мы говорим, это то, что функция может иметь функции как свой домен или диапазон. Один искусственно простой пример, который вы видели ранее, - это функция числа аргументов в главе 2. Эта функция принимает функцию как аргумент и возвращает число. Он не так сильно отличается от count, который принимает слово или предложение как аргумент и возвращает число.
 
 Like many big ideas, this one seems simple at first. All we're saying is that a function can have functions as its domain or range. One artificially simple example that you've seen earlier was the number-of-arguments function in Chapter 2. That function takes a function as argument and returns a number. It's not so different from count, which takes a word or sentence as argument and returns a number.
 
+Но вы увидите, что эта идея приводит к огромному увеличению длины и сложности процессов, которые вы можете выразить в короткой процедуре, потому что теперь процесс может порождать несколько других процессов. Типичным примером является процедура сокращения, которая была введена в главе 1 и будет рассмотрена более подробно. Вместо того, чтобы применять первую процедуру к одному слову, мы сначала используем ее как аргумент процедуры, каждый, которая автоматически применяет ее к каждому слову предложения. Каждый отдельный процесс порождает несколько первых процессов.
+
 But you'll see that this idea leads to an enormous rise in the length and complexity of the processes you can express in a short procedure, because now a process can give rise to several other processes. A typical example is the acronym procedure that we introduced in Chapter 1 and will examine now in more detail. Instead of applying the first procedure to a single word, we use first as an argument to a procedure, every, that automatically applies it to every word of a sentence. A single every process gives rise to several first processes.
+
+Та же идея функции, что и данные, позволяет нам писать процедуры, которые создают и возвращают новые процедуры. В начале второй части мы показали представление схемы функции, которая вычисляет третье лицо единственного числа глагола. Теперь, чтобы проиллюстрировать идею функции как данных, мы покажем, как представлять в Scheme функцию make-conjugator, чей диапазон - это все семейство функций глагола-сопряжения:
 
 The same idea of function as data allows us to write procedures that create and return new procedures. At the beginning of Part II we showed a Scheme representation of a function that computes the third person singular of a verb. Now, to illustrate the idea of function as data, we'll show how to represent in Scheme a function make-conjugator whose range is the whole family of verb-conjugation functions:
 
+```Scheme
 (define (make-conjugator prefix ending)
   (lambda (verb) (sentence prefix (word verb ending))))
 Never mind the notation for now; the idea to think about is that we can use make-conjugator to create many functions similar to the third-person example of the Part II introduction:
@@ -31,6 +41,10 @@ Never mind the notation for now; the idea to think about is that we can use make
 
 > (second-person-future-perfect 'laugh)
 (YOU WILL HAVE LAUGHED)
+```
+
+Мы рассмотрим только крошечную часть области, открытой идеей разрешения программы в качестве данных. Далее по тому же пути идет изучение компиляторов и интерпретаторов, программ, которые переводят ваши программы в инструкции, которые могут выполнять компьютеры. Компилятор Scheme - это, по существу, функция, чей домен - программы Scheme.
+
 We'll explore only a tiny fraction of the area opened up by the idea of allowing a program as data. Further down the same road is the study of compilers and interpreters, the programs that translate your programs into instructions that computers can carry out. A Scheme compiler is essentially a function whose domain is Scheme programs.
 
 Chapter 8
