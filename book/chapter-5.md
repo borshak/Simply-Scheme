@@ -1,5 +1,7 @@
-# Chapter 5
-# Words and Sentences
+# Глава 5
+# Слова и предложения
+
+Мы начали в первой части с примеров об акронимах и так далее, но с тех пор мы работали только с привычными числами. Это потому, что разговоры о процессе вычисления и об определении процедуры были достаточно сложными, чтобы вносить в них еще и дополнительные идеи. Но теперь мы готовы вернуться к символьному программированию.
 
 We started out, in Part I, with examples about acronyms and so on, but since then we've been working with numbery old numbers. That's because the discussions about evaluation and procedure definition were complicated enough without introducing extra ideas at the same time. But now we're ready to get back to symbolic programming.
 
