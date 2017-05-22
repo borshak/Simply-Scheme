@@ -113,7 +113,6 @@ SOMETHIN
 91
 ```
 
-
 Обратите внимание, что первый элемент в предложении - слово, а первый элемент в слове - буква. (Но нет отдельного типа данных, называемого «letter», а буква равнозначна односимвольному слову.) ```butfirst``` в предложении - предложение, а ```butfirst``` в слове - слово. Соответствующие правила сохраняются для last и butlast.
 
 Notice that the first of a sentence is a word, while the first of a word is a letter. (But there's no separate data type called "letter"; a letter is the same as a one-letter word.) The butfirst of a sentence is a sentence, and the butfirst of a word is a word. The corresponding rules hold for last and butlast.
@@ -125,8 +124,11 @@ The names butfirst and butlast aren't meant to describe ways to sled; they abbre
 HERE
 ====
 
+Вам может быть интересно, почему нам даются способы найти первый и последний элементы, но не 42-й элемент. Оказывается, имеющихся у нас достаточно, так как мы можем использовать эти примитивные селекторы для определения других:
+
 You may be wondering why we're given ways to find the first and last elements but not the 42nd element. It turns out that the ones we have are enough, since we can use these primitive selectors to define others:
 
+```Scheme
 (define (second thing)
   (first (butfirst thing)))
 
@@ -135,43 +137,69 @@ DREAMERS
 
 > (second 'michelle)
 I
+```
+Однако есть примитивный элемент селектора, который принимает два аргумента, число n и слово или предложение, и возвращает n-й элемент второго аргумента.
+
 There is, however, a primitive selector item that takes two arguments, a number n and a word or sentence, and returns the nth element of the second argument.
 
+```Scheme
 > (item 4 '(being for the benefit of mister kite!))
 BENEFIT
 
 > (item 4 'benefit)
 E
+```
+
+Не забывайте, что предложение, содержащее ровно одно слово, отличается от самого слова, а селекторы действуют по-разному:
+
 Don't forget that a sentence containing exactly one word is different from the word itself, and selectors operate on the two differently:
 
+```Scheme
 > (first 'because)
 B
 
 > (first '(because))
 BECAUSE
+
 > (butfirst 'because)
 ECAUSE
 
 > (butfirst '(because))
 ()
+```
+
+Значение этого последнего выражения - пустое предложение. Вы можете сказать, что это предложение из-за круглых скобок, и вы можете сказать, что оно пустое, потому что между ними нет ничего.
+
 The value of that last expression is the empty sentence. You can tell it's a sentence because of the parentheses, and you can tell it's empty because there's nothing between them.
 
+```Scheme
 > (butfirst 'a)
 ""
 
 > (butfirst 1024)
 "024"
+```
+Как показано в этих примерах, иногда butfirst возвращает слово, которое должно содержать метки двойных кавычек. Первый пример показывает пустое слово, в то время как второе показывает число, которое не находится в его обычной форме. (Его числовое значение 24, но вы обычно не видите ноль впереди.)
+
 As these examples show, sometimes butfirst returns a word that has to have double-quote marks around it. The first example shows the empty word, while the second shows a number that's not in its ordinary form. (Its numeric value is 24, but you don't usually see a zero in front.)
 
+```Scheme
 > 024
 24
 
 > "024"
 "024"
+```
+
+Мы постараемся избежать печатания этих забавных слов. Но не удивляйтесь, если увидите один из них как возвращаемое значение от одного из селекторов для слов. (Обратите внимание, что перед двойными кавычками не нужно ставить одиночную кавычку. Строки самооценки, как и числа.)
+
 We're going to try to avoid printing these funny words. But don't be surprised if you see one as the return value from one of the selectors for words. (Notice that you don't have to put a single quote in front of the double quotes. Strings are self-evaluating, just as numbers are.)
+
+Так как butfirst и butlast так трудно печатать, есть аббревиатуры bf и bl. Вы можете понять, что есть.
 
 Since butfirst and butlast are so hard to type, there are abbreviations bf and bl. You can figure out which is which.
 
+## Конструкторы
 ## Constructors
 
 Functions for putting things together are called constructors. For now, we just have two of them: word and sentence. Word takes any number of words as arguments and joins them all together into one humongous word:
