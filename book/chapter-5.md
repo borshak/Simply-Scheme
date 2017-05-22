@@ -69,11 +69,13 @@ Brian: "Your name."
 
 grow up to be computer programmers. The difference between a thing and its name is one of the important ideas that programmers need to understand.)
 
-## Selectors
 ## Селекторы
+
+Пока все, что мы делали со словами и предложениями - цитировали их. Чтобы сделать что-то поинтереснее, нам нужны инструменты для двух видов операций: мы должны уметь разделять [слова и предложения], и мы должны уметь их комбинировать.[2] Начнем с инструментов для разделения; техническим термином для такой операции - селекторы.
 
 So far all we've done with words and sentences is quote them. To do more interesting work, we need tools for two kinds of operations: We have to be able to take them apart, and we have to be able to put them together.[2] We'll start with the take-apart tools; the technical term for them is selectors.
 
+```Scheme
 > (first 'something)
 S
 
@@ -109,7 +111,16 @@ SOMETHIN
 
 > (butlast 910)
 91
+```
+
+HERE
+====
+
+Обратите внимание, что первый элемент в предложении - слово, а первый элемент в слове - буква. (Но нет отдельного типа данных, называемого «letter», а буква равнозначна односимвольному слову.) Но первым предлогом является предложение, а первым словом является слово. Соответствующие правила сохраняются для last и butlast.
+
 Notice that the first of a sentence is a word, while the first of a word is a letter. (But there's no separate data type called "letter"; a letter is the same as a one-letter word.) The butfirst of a sentence is a sentence, and the butfirst of a word is a word. The corresponding rules hold for last and butlast.
+
+Имена butfirst и butlast не предназначены для описания способов санок; Они сокращают «все кроме первого» и «все, кроме последнего».
 
 The names butfirst and butlast aren't meant to describe ways to sled; they abbreviate "all but the first" and "all but the last."
 
