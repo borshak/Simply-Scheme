@@ -359,24 +359,31 @@ When a cond tests several possible conditions, they might not be mutually exclus
       
 because the first test only makes sense once you've already established that there is a first word of the sentence. On the other hand, you don't have to say
 
+```Scheme
 (cond ((empty? sent) &hellip)
       ((and (not (empty? sent)) (number? (first sent))) &hellip)
       &hellip)
+      ```
+      
 because you've already established that the sentence is nonempty if you get as far as the second clause.
 
 If Is Composable
 
 Suppose we want to write a greet procedure that works like this:
 
+```Scheme
 > (greet '(brian epstein))
 (PLEASED TO MEET YOU BRIAN - HOW ARE YOU?)
 
 > (greet '(professor donald knuth))
 (PLEASED TO MEET YOU PROFESSOR KNUTH - HOW ARE YOU?)
+```
+
 The response of the program in these two cases is almost the same; the only difference is in the form of the person's name.
 
 This procedure could be written in two ways:
 
+```Scheme
 (define (greet name)
   (if (equal? (first name) 'professor)
       (se '(pleased to meet you)
@@ -393,6 +400,8 @@ This procedure could be written in two ways:
 	  (se 'professor (last name))
 	  (first name))
       '(- how are you?)))
+      ```
+      
 The second version avoids repeating the common parts of the response by using if within a larger expression.
 
 Some people find it counterintuitive to use if as we did in the second version. Perhaps the reason is that in some other programming languages, if is a "command" instead of a function like any other. A mechanism that selects one part of a program to run, and leaves out another part, may seem too important to be a mere argument subexpression. But in Scheme, the value returned by every function can be used as part of a larger expression.[6]
@@ -407,29 +416,45 @@ Many people also have trouble with the asymmetry of the member? predicate. The f
 
 Many people try to use and and or with the full flexibility of the corresponding English words. Alas, Scheme is not English. For example, suppose you want to know whether the argument to a procedure is either the word yes or the word no. You can't say
 
+```Scheme
 (equal? argument (or 'yes 'no))              ; wrong!
+```
+
 This sounds promising: "Is the argument equal to the word yes or the word no?" But the arguments to or must be true-or-false values, not things you want to check for equality with something else. You have to make two separate equality tests:
 
+```Scheme
 (or (equal? argument 'yes) (equal? argument 'no))
+```
+
 In this particular case, you could also solve the problem by saying
 
+```Scheme
 (member? argument '(yes no))
+```
+
 but the question of trying to use or as if it were English comes up in other cases for which member? won't help.
 
 This isn't exactly a pitfall, because it won't stop your program from working, but programs like
 
+```Scheme
 (define (odd? n)
   (if (not (even? n)) #t #f))
+  ```
+  
 are redundant. Instead, you could just say
 
+```Scheme
 (define (odd? n)
   (not (even? n)))
+  ```
+  
 since the value of (not (even? n)) is already #t or #f.
 
 Boring Exercises
 
 6.1  What values are printed when you type these expressions to Scheme? (Figure it out in your head before you try it on the computer.)
 
+```Scheme
 (cond ((= 3 4) '(this boy))
       ((< 2 5) '(nowhere man))
       (else '(two of us)))
@@ -444,8 +469,11 @@ Boring Exercises
         (else (word verb 's))))
 
 (third-person-singular 'go)
+```
+
 6.2  What values are printed when you type these expressions to Scheme? (Figure it out in your head before you try it on the computer.)
 
+```Scheme
 (or #f #f #f #t)
 
 (and #f #f #f #t)
@@ -457,25 +485,34 @@ Boring Exercises
 (or (not (= 2 3)) (= 4 3))
 
 (or (and (= 2 3) (= 3 3)) (and (< 2 3) (< 3 4)))
+```
+
 6.3  Rewrite the following procedure using a cond instead of the ifs:
 
+```Scheme
 (define (sign number)
   (if (< number 0)
       'negative
       (if (= number 0)
 	  'zero
 	  'positive)))
+	  ```
+	  
 6.4  Rewrite the following procedure using an if instead of the cond:
 
+```Scheme
 (define (utensil meal)
   (cond ((equal? meal 'chinese) 'chopsticks)
 	(else 'fork)))
+	```
+	
 Real Exercises
 
 Note: Writing helper procedures may be useful in solving some of these problems.
 
 6.5  Write a procedure european-time to convert a time from American AM/PM notation into European 24-hour notation. Also write american-time, which does the opposite:
 
+```Scheme
 > (european-time '(8 am))
 8
 
@@ -490,12 +527,15 @@ Note: Writing helper procedures may be useful in solving some of these problems.
 
 > (european-time '(12 am))
 24
+```
+
 Getting noon and midnight right is tricky.
 
 6.6  Write a predicate teen? that returns true if its argument is between 13 and 19.
 
 6.7  Write a procedure type-of that takes anything as its argument and returns one of the words word, sentence, number, or boolean:
 
+```Scheme
 > (type-of '(getting better))
 SENTENCE
 
@@ -504,35 +544,47 @@ WORD
 
 > (type-of (= 3 3))
 BOOLEAN
+```
+
 (Even though numbers are words, your procedure should return number if its argument is a number.)
 
 Feel free to check for more specific types, such as "positive integer," if you are so inclined.
 
 6.8  Write a procedure indef-article that works like this:
 
+```Scheme
 > (indef-article 'beatle)
 (A BEATLE)
 
 > (indef-article 'album)
 (AN ALBUM)
+```
+
 Don't worry about silent initial consonants like the h in hour.
 
 6.9  Sometimes you must choose the singular or the plural of a word: 1 book but 2 books. Write a procedure thismany that takes two arguments, a number and a singular noun, and combines them appropriately:
 
+```Scheme
 > (thismany 1 'partridge)
 (1 PARTRIDGE)
 
 > (thismany 3 'french-hen)
 (3 FRENCH-HENS)
+```
+
 6.10  Write a procedure sort2 that takes as its argument a sentence containing two numbers. It should return a sentence containing the same two numbers, but in ascending order:
 
+```Scheme
 > (sort2 '(5 7))
 (5 7)
 
 > (sort2 '(7 5))
 (5 7)
+```
+
 6.11  Write a predicate valid-date? that takes three numbers as arguments, representing a month, a day of the month, and a year. Your procedure should return #t if the numbers represent a valid date (e.g., it isn't the 31st of September). February has 29 days if the year is divisible by 4, except that if the year is divisible by 100 it must also be divisible by 400.
 
+```Scheme
 > (valid-date? 10 4 1949)
 #T
 
@@ -547,11 +599,14 @@ Don't worry about silent initial consonants like the h in hour.
 
 > (valid-date? 2 29 2000)
 #T
+```
+
 6.12  Make plural handle correctly words that end in y but have a vowel before the y, such as boy. Then teach it about words that end in x (box). What other special cases can you find?
 
 
 6.13  Write a better greet procedure that understands as many different kinds of names as you can think of:
 
+```Scheme
 > (greet '(john lennon))
 (HELLO JOHN)
 
@@ -566,8 +621,11 @@ Don't worry about silent initial consonants like the h in hour.
 
 > (greet '(david livingstone))
 (DR LIVINGSTONE I PRESUME?)
+```
+
 6.14  Write a procedure describe-time that takes a number of seconds as its argument and returns a more useful description of that amount of time:
 
+```Scheme
 > (describe-time 45)
 (45 SECONDS)
 
@@ -576,9 +634,14 @@ Don't worry about silent initial consonants like the h in hour.
 
 > (describe-time 30000000000)
 (9.506426344208686 CENTURIES)
+```
+
 [1] In some versions of Scheme, the empty sentence is considered false. That is, () and #f may be the same thing. The reason that we can't be definite about this point is that older versions of Scheme follow the traditional Lisp usage, in which the empty sentence is false, but since then a standardization committee has come along and insisted that the two values should be different. In this book we'll consider them as different, but we'll try to avoid examples in which it matters. The main point is that you shouldn't be surprised if you see something like this:
+```Scheme
 > (= 3 4)
 ()
+```
+
 in the particular implementation of Scheme that you're using.
 
 [2] Why is it called that? Think about an English sentence, such as "Ringo is a drummer." As you may remember from elementary school, "Ringo" is the subject of that sentence, and "is a drummer" is the predicate. That predicate could be truthfully attached to some subjects but not others. For example, it's true of "Neil Peart" but not of "George Harrison." So the predicate "is a drummer" can be thought of as a function whose value is true or false.
