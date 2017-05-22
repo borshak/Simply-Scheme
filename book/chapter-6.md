@@ -32,17 +32,27 @@ Here's a procedure that greets a person:
 
 The program greets a person by checking to see if that person is a professor. If so, it says, "I hope I am not bothering you" and then the professor's name. But if it's a regular person, the program just says, "Good to see you," and then the person's first name.
 
+```if``` принимает три аргумента. Первый должен быть выражен как истина или ложь - true или false. (Мы вскоре поговорим в какой-то момент о том, истина и ложь выглядят для Scheme.) В приведенном выше примере первое слово имени человека может быть или не быть равным слову «professor». Второй и третий аргументы являются выражениями; и в зависимости от первого аргумента ```if``` вичисляется второй или третий аргумент. Один из них вычисляется, в зависимости от первого аргумента. Значение всего выражения ```if``` является значением второго или третьего аргумента.
+
 If takes three arguments. The first has to be either true or false. (We'll talk in a moment about exactly what true and false look like to Scheme.) In the above example, the first word of the person's name might or might not be equal to the word "Professor." The second and third arguments are expressions; one or the other of them is evaluated depending on the first argument. The value of the entire if expression is the value of either the second or the third argument.
+
+В главе 2 вы узнали, что в Scheme включен специальный тип данных Booleans, представляющий значения true или false (истину или ложь). Используются такие значения: ```#t``` для "true" и ```#f``` для "false". [1]
 
 You learned in Chapter 2 that Scheme includes a special data type called Booleans to represent true or false values. There are just two of them: #t for "true" and #f for "false."[1]
 
+Мы сказали, что первый аргумент if должен быть истинным или ложным. Конечно, было бы глупо записывать
+
 We said that the first argument to if has to be true or false. Of course, it would be silly to say
 
+```Scheme
 > (if #t (+ 4 5) (* 2 7))
 9
+```
+Потому что какой смысл использовать ```if```, если мы уже знаем, какая ветка будет вычислена? Вместо этого, как и в примере **greet**, мы вызываем некоторую процедуру, возвращаемое значение которой будет либо true, либо false, в зависимости от конкретных аргументов, которые мы ей передаем.
+
 because what's the point of using if if we already know which branch will be followed? Instead, as in the greet example, we call some procedure whose return value will be either true or false, depending on the particular arguments we give it.
 
-Predicates
+## Predicates
 
 A function that returns either #t or #f is called a predicate.[2] You've already seen the equal? predicate. It takes two arguments, which can be of any type, and returns #t if the two arguments are the same value, or #f if they're different. It's a convention in Scheme that the names of predicates end with a question mark, but that's just a convention. Here are some other useful predicates:
 
