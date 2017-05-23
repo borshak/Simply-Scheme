@@ -54,6 +54,8 @@ because what's the point of using if if we already know which branch will be fol
 
 ## Predicates
 
+Функция, которая возвращает либо #t, либо #f, называется предикатом. [2] Вы уже видели равных? сказуемое. Он принимает два аргумента, которые могут быть любого типа, и возвращает #t, если два аргумента имеют одинаковое значение, или #f, если они разные. Это соглашение на Схеме о том, что имена предикатов заканчиваются знаком вопроса, но это всего лишь соглашение. Вот еще несколько полезных предикатов:
+
 A function that returns either #t or #f is called a predicate.[2] You've already seen the equal? predicate. It takes two arguments, which can be of any type, and returns #t if the two arguments are the same value, or #f if they're different. It's a convention in Scheme that the names of predicates end with a question mark, but that's just a convention. Here are some other useful predicates:
 
 ```Scheme
@@ -87,9 +89,15 @@ A function that returns either #t or #f is called a predicate.[2] You've already
 #T
 ```
 
+Член? Принимает два аргумента; Он проверяет, является ли первый членом второго. Функции =,>, <,> = и <= принимают два числа в качестве аргументов и делают очевидные сравнения. (Кстати, это исключения из конвенции о вопросительных знаках.) Раньше? Похож <, но он сравнивает два слова в алфавитном порядке. Пустой? Проверяет, является ли его аргумент пустым словом или пустым предложением.
+
 Member? takes two arguments; it checks to see if the first one is a member of the second. The =, >, <, >=, and <= functions take two numbers as arguments and do the obvious comparisons. (By the way, these are exceptions to the convention about question marks.) Before? is like <, but it compares two words alphabetically. Empty? checks to see if its argument is either the empty word or the empty sentence.
 
+Почему мы оба равны? И = в схеме? Первая из этих работ относится к любому типу данных схемы, вторая - только для чисел. Вы могли бы избежать неприятностей, всегда используя равные ?, но более конкретная форма делает вашу программу более понятной; Люди, читающие программу, сразу узнают, что вы сравниваете цифры.
+
 Why do we have both equal? and = in Scheme? The first of these works on any kind of Scheme data, while the second is defined only for numbers. You could get away with always using equal?, but the more specific form makes your program more self-explanatory; people reading the program know right away that you're comparing numbers.
+
+Существует также несколько предикатов, которые можно использовать для проверки типа их аргумента:
 
 There are also several predicates that can be used to test the type of their argument:
 
@@ -118,6 +126,8 @@ There are also several predicates that can be used to test the type of their arg
 #T
 ```
 
+Конечно, мы можем также определить новые предикаты:
+
 Of course, we can also define new predicates:
 
 ```Scheme
@@ -128,7 +138,9 @@ Of course, we can also define new predicates:
   (> number 0))
   ```
   
-Using Predicates
+### Using Predicates
+
+Вот процедура, которая возвращает абсолютное значение числа:
 
 Here's a procedure that returns the absolute value of a number:
 
@@ -139,7 +151,11 @@ Here's a procedure that returns the absolute value of a number:
       num))
 ```
 
+(Если вы вызываете - только с одним аргументом, он возвращает отрицательное значение этого аргумента). Схема фактически предоставляет abs как примитивную процедуру, но мы можем переопределить ее.
+
 (If you call - with just one argument, it returns the negative of that argument.) Scheme actually provides abs as a primitive procedure, but we can redefine it.
+
+Вы помните, как играть в шумиху? Вы все сидите вокруг костра, и вы идете по кругу, подсчитывая его от одного. Каждый человек говорит число. Если ваш номер делится на семь или если одна из его цифр равна семи, тогда вместо того, чтобы вызывать свой номер, вы говорите «гудение».
 
 Do you remember how to play buzz? You're all sitting around the campfire and you go around the circle counting up from one. Each person says a number. If your number is divisible by seven or if one of its digits is a seven, then instead of calling out your number, you say "buzz."
 
@@ -152,12 +168,20 @@ Do you remember how to play buzz? You're all sitting around the campfire and you
 (define (divisible? big little)
   (= (remainder big little) 0))
   ```
-  
+
+Или может принимать любое количество аргументов, каждое из которых должно быть истинным или ложным. Он возвращает true, если какой-либо из его аргументов является истинным, то есть, если первый аргумент является истинным или второй аргумент имеет значение true, или & hellip (Remainder, как вы знаете, принимает два целых числа и сообщает вам, что остаток, когда вы делите первый на Второй - если остаток равен нулю, первое число делится на второе.)
+
 Or can take any number of arguments, each of which must be true or false. It returns true if any of its arguments are true, that is, if the first argument is true or the second argument is true or&hellip (Remainder, as you know, takes two integers and tells you what the remainder is when you divide the first by the second. If the remainder is zero, the first number is divisible by the second.)
+
+Или является одной из трех функций на Схеме, которые объединяют истинные или ложные значения для получения другого истинного или ложного значения. И возвращает true, если все его аргументы истинны, то есть первый и второй и & hellip; Наконец, существует функция, которая не принимает ровно один аргумент, возвращая true, если этот аргумент является ложным и наоборот.
 
 Or is one of three functions in Scheme that combine true or false values to produce another true or false value. And returns true if all of its arguments are true, that is, the first and second and&hellip Finally, there's a function not that takes exactly one argument, returning true if that argument is false and vice versa.
 
+В последнем примере процедура, которую мы действительно хотели написать, была гудка, но мы сочли полезным определить делящуюся? также. Довольно часто, что самый простой способ решить какую-либо проблему - написать вспомогательную процедуру для выполнения части работы. В этом случае вспомогательная процедура вычисляет функцию, которая имеет смысл сама по себе, но иногда вам нужно будет написать процедуры с такими именами, как buzz-helper, которые полезны только в контексте одной конкретной проблемы.
+
 In the last example, the procedure we really wanted to write was buzz, but we found it useful to define divisible? also. It's quite common that the easiest way to solve some problem is to write a helper procedure to do part of the work. In this case the helper procedure computes a function that's meaningful in itself, but sometimes you'll want to write procedures with names like buzz-helper that are useful only in the context of one particular problem.
+
+Давайте напишем программу, которая берет слово в качестве аргумента и возвращает множественное число этого слова. Наша первая версия просто добавит «s» в конец:
 
 Let's write a program that takes a word as its argument and returns the plural of that word. Our first version will just put an "s" on the end:
 
@@ -175,6 +199,8 @@ COMPUTERS
 FLYS
 ```
 
+Это работает для большинства слов, но не для тех, которые заканчиваются на «y». Вот вторая версия:
+
 This works for most words, but not those that end in "y." Here's version two:
 
 ```Scheme
@@ -184,9 +210,13 @@ This works for most words, but not those that end in "y." Here's version two:
       (word wd 's)))
       ```
       
+Это не совсем правильно; Он думает, что множественное число «мальчик» является «boies». Мы попросим вас добавить еще несколько правил в упражнении 6.12.
+
 This isn't exactly right either; it thinks that the plural of "boy" is "boies." We'll ask you to add some more rules in Exercise 6.12.
 
-If Is a Special Form
+### If Is a Special Form
+
+Есть несколько тонкостей, о которых мы еще не рассказывали. Прежде всего, если это специальная форма. Помните, что нам понадобится значение только одного из последних двух аргументов. Для Схемы было бы расточительно оценивать другую. Так что если вы скажете
 
 There are a few subtleties that we haven't told you about yet. First of all, if is a special form. Remember that we're going to need the value of only one of its last two arguments. It would be wasteful for Scheme to evaluate the other one. So if you say
 
@@ -196,11 +226,17 @@ There are a few subtleties that we haven't told you about yet. First of all, if 
     (factorial 1000))
 ```
 
+if не вычислить факториал 1000, прежде чем вернет уверенность.
+
 if won't compute the factorial of 1000 before returning sure.
+
+Правило состоит в том, что если всегда вычисляется его первый аргумент. Если значение этого аргумента истинно, то если вычисляется его второй аргумент и возвращается его значение. Если значение первого аргумента ложно, тогда, если вычисляется его третий аргумент и возвращается это значение.
 
 The rule is that if always evaluates its first argument. If the value of that argument is true, then if evaluates its second argument and returns its value. If the value of the first argument is false, then if evaluates its third argument and returns that value.
 
-So Are And and Or
+### So Are And and Or
+
+И и или также являются специальными формами. Они оценивают свои аргументы в порядке слева направо [3] и останавливаются, как только могут. Для or, это означает возврат true, как только какой-либо из аргументов будет истинным. И возвращает false, как только какой-либо аргумент является ложным. Это оказывается полезным в следующих случаях:
 
 And and or are also special forms. They evaluate their arguments in order from left to right[3] and stop as soon as they can. For or, this means returning true as soon as any of the arguments is true. And returns false as soon as any argument is false. This turns out to be useful in cases like the following:
 
@@ -224,9 +260,11 @@ And and or are also special forms. They evaluate their arguments in order from l
 ERROR: AARDVARK IS NOT A NUMBER
 ```
 
+Мы хотим увидеть, является ли x числом, и если да, то делится на 4. Было бы ошибкой применять делимое? На нечётный номер. Если бы и была обычная процедура, оба теста (число? И делимое?) Были бы оценены до того, как у нас будет шанс обратить внимание на результат первого. Вместо этого, если x окажется не числом, наша процедура вернет #f, не пытаясь разделить его на 4.
+
 We want to see if x is a number, and, if so, if it's divisible by 4. It would be an error to apply divisible? to a nonnumber. If and were an ordinary procedure, the two tests (number? and divisible?) would both be evaluated before we would have a chance to pay attention to the result of the first one. Instead, if x turns out not to be a number, our procedure will return #f without trying to divide it by 4.
 
-Everything That Isn't False Is True
+### Everything That Isn't False Is True
 
 #T isn't the only true value. In fact, every value is considered true except for #f.
 
@@ -234,6 +272,8 @@ Everything That Isn't False Is True
 > (if (+ 3 4) 'yes 'no)
 YES
 ```
+
+Это позволяет нам иметь полупредикаты, которые дают немного больше информации, чем просто истина или ложь. Например, мы можем написать целую частную процедуру. То есть наша процедура будет делить свой первый аргумент на второй, но только если первый делится на второй равномерно. Если нет, наша процедура вернет #f.
 
 This allows us to have semipredicates that give slightly more information than just true or false. For example, we can write an integer quotient procedure. That is to say, our procedure will divide its first argument by the second, but only if the first is evenly divisible by the second. If not, our procedure will return #f.
 
@@ -250,12 +290,16 @@ This allows us to have semipredicates that give slightly more information than j
 #F
 ```
 
+И и или также являются полупредикатами. Мы уже объясняли это или возвращаем истинный результат, как только он оценивает истинный аргумент. Особое истинное значение, которое или возвращает значение первого истинного аргумента:
+
 And and or are also semipredicates. We've already explained that or returns a true result as soon as it evaluates a true argument. The particular true value that or returns is the value of that first true argument:
 
 ```Scheme
 > (or #f 3 #f 4)
 3
 ```
+
+И возвращает истинное значение, только если все его аргументы истинны. В этом случае он возвращает значение последнего аргумента:
 
 And returns a true value only if all of its arguments are true. In that case, it returns the value of the last argument:
 
